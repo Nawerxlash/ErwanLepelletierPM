@@ -4,9 +4,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.erwanlepelletierpm.R
-import com.example.erwanlepelletierpm.presentation.list.Pokemon
+import com.example.erwanlepelletierpm.presentation.list.Card
 
-class PokemonAdapter(private var dataSet: List<Pokemon>) : RecyclerView.Adapter<PokemonAdapter.ViewHolder>() {
+class YugiAdapter(private var dataSet: List<Card>) : RecyclerView.Adapter<YugiAdapter.ViewHolder>() {
 
     /**
      * Provide a reference to the type of views that you are using
@@ -21,7 +21,7 @@ class PokemonAdapter(private var dataSet: List<Pokemon>) : RecyclerView.Adapter<
         }
     }
 
-    fun updateList(list: List<Pokemon>) {
+    fun updateList(list: List<Card>) {
         dataSet = list
         notifyDataSetChanged()
     }
@@ -30,7 +30,7 @@ class PokemonAdapter(private var dataSet: List<Pokemon>) : RecyclerView.Adapter<
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.pokemon_item, viewGroup, false)
+            .inflate(R.layout.yugi_item, viewGroup, false)
 
         return ViewHolder(view)
     }
@@ -40,8 +40,8 @@ class PokemonAdapter(private var dataSet: List<Pokemon>) : RecyclerView.Adapter<
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        val pokemon : Pokemon = dataSet[position]
-        viewHolder.textView.text = pokemon.name
+        val card : Card = dataSet[position]
+        viewHolder.textView.text = card.name
     }
 
     // Return the size of your dataset (invoked by the layout manager)
