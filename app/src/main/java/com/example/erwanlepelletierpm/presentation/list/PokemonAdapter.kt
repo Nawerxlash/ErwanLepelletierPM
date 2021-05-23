@@ -4,9 +4,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.erwanlepelletierpm.R
+import com.example.erwanlepelletierpm.presentation.list.Pokemon
 
-class GenshinAdapter(private var dataSet: List<String>) :
-    RecyclerView.Adapter<GenshinAdapter.ViewHolder>() {
+class PokemonAdapter(private var dataSet: List<Pokemon>) : RecyclerView.Adapter<PokemonAdapter.ViewHolder>() {
 
     /**
      * Provide a reference to the type of views that you are using
@@ -17,11 +17,11 @@ class GenshinAdapter(private var dataSet: List<String>) :
 
         init {
             // Define click listener for the ViewHolder's View.
-            textView = view.findViewById(R.id.character_name)
+            textView = view.findViewById(R.id.pokemon_name)
         }
     }
 
-    fun updateList(list: List<String>) {
+    fun updateList(list: List<Pokemon>) {
         dataSet = list
         notifyDataSetChanged()
     }
@@ -30,7 +30,7 @@ class GenshinAdapter(private var dataSet: List<String>) :
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.genshin_character, viewGroup, false)
+            .inflate(R.layout.pokemon_item, viewGroup, false)
 
         return ViewHolder(view)
     }
@@ -40,7 +40,8 @@ class GenshinAdapter(private var dataSet: List<String>) :
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.textView.text = dataSet[position]
+        val pokemon : Pokemon = dataSet[position]
+        viewHolder.textView.text = pokemon.name
     }
 
     // Return the size of your dataset (invoked by the layout manager)

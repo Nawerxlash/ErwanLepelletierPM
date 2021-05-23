@@ -1,13 +1,11 @@
 package com.example.erwanlepelletierpm.presentation.list
 
-import GenshinAdapter
+import PokemonAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.erwanlepelletierpm.R
@@ -15,10 +13,10 @@ import com.example.erwanlepelletierpm.R
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class GenshinListFragment : Fragment() {
+class PokemonListAdapter : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-    private val adapter = GenshinAdapter(listOf())
+    private val adapter = PokemonAdapter(listOf())
     private val layoutManager = LinearLayoutManager(context)
 
 
@@ -27,7 +25,7 @@ class GenshinListFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_genshin_list, container, false)
+        return inflater.inflate(R.layout.fragment_pokemon_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,17 +35,17 @@ class GenshinListFragment : Fragment() {
         recyclerView = view.findViewById(R.id.genshin_recyclerview)
 
         recyclerView.apply  {
-            layoutManager = this@GenshinListFragment.layoutManager
-            adapter = this@GenshinListFragment.adapter
+            layoutManager = this@PokemonListAdapter.layoutManager
+            adapter = this@PokemonListAdapter.adapter
         }
 
-        val genshinlist : ArrayList<String> = arrayListOf<String>().apply {
-            add("Xiao")
-            add("Tartaglia")
-            add("Diluc")
-            add("Eula")
+        val pokemonlist : ArrayList<Pokemon> = arrayListOf<Pokemon>().apply {
+            add(Pokemon("Xiao"))
+            add(Pokemon("Tartaglia"))
+            add(Pokemon("Diluc"))
+            add(Pokemon("Eula"))
         }
 
-        adapter.updateList(genshinlist)
+        adapter.updateList(pokemonlist)
     }
 }
