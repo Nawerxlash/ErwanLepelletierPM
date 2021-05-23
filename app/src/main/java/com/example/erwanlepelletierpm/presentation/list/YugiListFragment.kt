@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.erwanlepelletierpm.R
@@ -23,7 +24,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 class YugiListFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-    private val adapter = YugiAdapter(listOf())
+    private val adapter = YugiAdapter(listOf(), ::onClikedCard)
+
+
     private val layoutManager = LinearLayoutManager(context)
 
 
@@ -41,44 +44,39 @@ class YugiListFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.genshin_recyclerview)
 
-        recyclerView.apply  {
+        recyclerView.apply {
             layoutManager = this@YugiListFragment.layoutManager
             adapter = this@YugiListFragment.adapter
         }
 
 
-        val retrofit :Retrofit = Retrofit.Builder()
+        val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl("https://db.ygoprodeck.com/api/v7/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        val pokeApi: YugiApi = retrofit.create(YugiApi ::class.java)
+        val pokeApi: YugiApi = retrofit.create(YugiApi::class.java)
 
         pokeApi.getYugiList().enqueue(object : retrofit2.Callback<YugiohResponse> {
             override fun onFailure(call: Call<YugiohResponse>, t: Throwable) {
                 //TODO("Not yet implemented")
             }
 
-            override fun onResponse(call: Call<YugiohResponse>, response: Response<YugiohResponse>) {
+            override fun onResponse(
+                call: Call<YugiohResponse>,
+                response: Response<YugiohResponse>
+            ) {
                 if (response.isSuccessful && response.body() != null) {
-                    val YugiohResponse :YugiohResponse= response.body()!!
+                    val YugiohResponse: YugiohResponse = response.body()!!
                     adapter.updateList(YugiohResponse.data)
                 }
             }
 
 
         })
+    }
 
-
-
-
-        /*val pokemonlist : ArrayList<Pokemon> = arrayListOf<Pokemon>().apply {
-            add(Pokemon("Xiao"))
-            add(Pokemon("Tartaglia"))
-            add(Pokemon("Diluc"))
-            add(Pokemon("Eula"))
-        }
-
-        adapter.updateList(pokemonlist)*/
+    private fun onClikedCard(card: Card) {
+        findNavController().navigate(R.id.navigateToCardDetailFragment)
     }
 }
