@@ -5,7 +5,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.erwanlepelletierpm.R
 
-class GenshinAdapter(private val dataSet: Array<String>) :
+class GenshinAdapter(private var dataSet: List<String>) :
     RecyclerView.Adapter<GenshinAdapter.ViewHolder>() {
 
     /**
@@ -19,6 +19,11 @@ class GenshinAdapter(private val dataSet: Array<String>) :
             // Define click listener for the ViewHolder's View.
             textView = view.findViewById(R.id.character_name)
         }
+    }
+
+    fun updateList(list: List<String>) {
+        dataSet = list
+        notifyDataSetChanged()
     }
 
     // Create new views (invoked by the layout manager)
