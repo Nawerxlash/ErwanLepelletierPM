@@ -5,4 +5,7 @@ Lien de l'API: https://db.ygoprodeck.com/api/v7/cardinfo.php
 
 Screen du projet :
 
+Screens détails cartes:
+https://github.com/Nawerxlash/ErwanLepelletierPM/blob/master/Screens/D%C3%A9tail%20des%20cartes%20YU-GI-OH.jpg
+
 
