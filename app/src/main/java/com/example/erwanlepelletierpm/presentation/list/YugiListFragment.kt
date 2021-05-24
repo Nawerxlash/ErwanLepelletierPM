@@ -5,17 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.erwanlepelletierpm.R
-import com.example.erwanlepelletierpm.presentation.api.YugiApi
+import com.example.erwanlepelletierpm.presentation.Singletons
 import com.example.erwanlepelletierpm.presentation.api.YugiohResponse
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 /**
@@ -25,10 +25,6 @@ class YugiListFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private val adapter = YugiAdapter(listOf(), ::onClikedCard)
-
-
-    private val layoutManager = LinearLayoutManager(context)
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,29 +38,29 @@ class YugiListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        recyclerView = view.findViewById(R.id.genshin_recyclerview)
+        recyclerView = view.findViewById(R.id.yugioh_recyclerview)
 
         recyclerView.apply {
-            layoutManager = this@YugiListFragment.layoutManager
+            layoutManager = LinearLayoutManager(context)
             adapter = this@YugiListFragment.adapter
         }
 
+        callApi()
 
-        val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl("https://db.ygoprodeck.com/api/v7/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+    }
 
-        val pokeApi: YugiApi = retrofit.create(YugiApi::class.java)
 
-        pokeApi.getYugiList().enqueue(object : retrofit2.Callback<YugiohResponse> {
+
+
+    private fun callApi() {
+        Singletons.yugiApi.getYugiList().enqueue(object : Callback<YugiohResponse> {
             override fun onFailure(call: Call<YugiohResponse>, t: Throwable) {
                 //TODO("Not yet implemented")
             }
 
             override fun onResponse(
-                call: Call<YugiohResponse>,
-                response: Response<YugiohResponse>
+                    call: Call<YugiohResponse>,
+                    response: Response<YugiohResponse>
             ) {
                 if (response.isSuccessful && response.body() != null) {
                     val YugiohResponse: YugiohResponse = response.body()!!
@@ -72,11 +68,11 @@ class YugiListFragment : Fragment() {
                 }
             }
 
-
         })
     }
 
+
     private fun onClikedCard(card: Card) {
-        findNavController().navigate(R.id.navigateToCardDetailFragment)
+        findNavController().navigate(R.id.navigateToCardDetailFragment, bundleOf())
     }
 }

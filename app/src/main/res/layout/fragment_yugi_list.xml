@@ -8,7 +8,7 @@
     tools:context=".presentation.list.YugiListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/genshin_recyclerview"
+        android:id="@+id/yugioh_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

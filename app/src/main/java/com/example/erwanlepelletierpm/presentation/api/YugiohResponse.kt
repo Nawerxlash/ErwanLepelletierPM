@@ -6,3 +6,4 @@ import com.example.erwanlepelletierpm.presentation.list.Card
 data class YugiohResponse(
     val data: List<Card>
 )
+

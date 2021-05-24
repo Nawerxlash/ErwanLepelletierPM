@@ -17,10 +17,13 @@
     </fragment>
     <fragment
         android:id="@+id/CardDetailFragment"
-        android:name="com.example.erwanlepelletierpm.presentation.SecondFragment"
+        android:name="com.example.erwanlepelletierpm.presentation.detail.CardDetailFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
+        tools:layout="@layout/fragment_card_detail">
+        <argument
+            android:name="cardId"
+            app:argType="integer"
+            android:defaultValue="1"/>
         <action
             android:id="@+id/navigateToCardListFragment"
             app:destination="@id/CardListFragment" />
