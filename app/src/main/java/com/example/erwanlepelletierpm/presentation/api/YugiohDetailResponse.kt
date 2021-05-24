@@ -10,13 +10,10 @@ data class CardInfo (
         val name: String,
         val id : Int,
         val type: String,
-        val desc: String,
-        val archetype: String,
-        val card_Images: List<ImageSet>
+        val card_images: List<ImageSet>
 )
 
 data class ImageSet(
-    val idImg: Int,
-    val image_Url: String,
-    val image_Url_Small: String
+    val image_url: String,
+    val image_url_small: String
 )

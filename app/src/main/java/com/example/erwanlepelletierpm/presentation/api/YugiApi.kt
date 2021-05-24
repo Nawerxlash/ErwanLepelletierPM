@@ -10,6 +10,6 @@ interface YugiApi {
     fun getYugiList(): Call<YugiohResponse>
 
     @GET("cardinfo.php/{{id}}")
-    fun getYugiDetail(@Path("id") id: String): Call<YugiohDetailResponse>
+    fun getYugiDetail(@Path("id") id: Int): Call<YugiohDetailResponse>
 
 }

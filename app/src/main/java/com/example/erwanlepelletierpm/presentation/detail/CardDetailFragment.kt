@@ -29,10 +29,11 @@ class CardDetailFragment : Fragment() {
 
 
     private lateinit var textViewName: TextView
-    private lateinit var textViewDescription: TextView
     private lateinit var textViewType: TextView
-    private lateinit var textViewArchetype: TextView
     private lateinit var ImageView: ImageView
+    private lateinit var YugiLogo: ImageView
+
+
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -46,18 +47,16 @@ class CardDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         textViewName = view.findViewById(R.id.card_detail_name)
-        textViewDescription = view.findViewById(R.id.card_detail_description)
         textViewType = view.findViewById(R.id.card_detail_type)
-        textViewArchetype = view.findViewById(R.id.card_detail_archetype)
         ImageView = view.findViewById(R.id.card_img)
-
+        YugiLogo  = view.findViewById(R.id.yugi_logo)
 
         callApi()
     }
 
     private fun callApi() {
         val id = arguments?.getInt("cardId") ?: -1
-        Singletons.yugiApi.getYugiDetail(id.toString()).enqueue(object : retrofit2.Callback<YugiohDetailResponse> {
+        Singletons.yugiApi.getYugiDetail(id).enqueue(object : retrofit2.Callback<YugiohDetailResponse> {
             override fun onFailure(call: Call<YugiohDetailResponse>, t: Throwable) {
                 //TODO("Not yet implemented")
             }
@@ -67,16 +66,21 @@ class CardDetailFragment : Fragment() {
                     response: Response<YugiohDetailResponse>
             ) {
                 if (response.isSuccessful && response.body() != null) {
+                    // J'ai affiché le nom et la description derière l'image Yugioh mais en soit ça sert à rien, l'info est deja dans l'image de la carte
                     textViewName.text = response.body()!!.data[id].name
-                    textViewDescription.text = response.body()!!.data[id].desc
                     textViewType.text = response.body()!!.data[id].type
-                    textViewArchetype.text = response.body()!!.data[id].archetype
 
-                    /*Glide
+                    Glide
                             .with(ImageView)
-                            .load(response.body()!!.data[0].card_Images[0].image_Url)
+                            .load(response.body()!!.data[id].card_images[0].image_url)
                             .centerCrop()
-                            .into(ImageView);*/
+                            .into(ImageView);
+
+                    Glide
+                        .with(YugiLogo)
+                        .load("https://www.logolynx.com/images/logolynx/8a/8a629aa27c090b4ec0d27fe78e63c8f5.jpeg")
+                        .centerCrop()
+                        .into(YugiLogo);
 
                 }
             }

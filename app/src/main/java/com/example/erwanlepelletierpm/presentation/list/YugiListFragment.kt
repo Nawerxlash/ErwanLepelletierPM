@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.erwanlepelletierpm.R
 import com.example.erwanlepelletierpm.presentation.Singletons
 import com.example.erwanlepelletierpm.presentation.api.YugiohResponse
@@ -24,6 +26,7 @@ import retrofit2.Response
 class YugiListFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var ImageYugi: ImageView
     private val adapter = YugiAdapter(listOf(), ::onClikedCard)
 
     override fun onCreateView(
@@ -39,6 +42,7 @@ class YugiListFragment : Fragment() {
 
 
         recyclerView = view.findViewById(R.id.yugioh_recyclerview)
+        ImageYugi = view.findViewById(R.id.yugi_img)
 
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
@@ -75,7 +79,13 @@ class YugiListFragment : Fragment() {
                 if (response.isSuccessful && response.body() != null) {
                     val YugiohResponse: YugiohResponse = response.body()!!
                     adapter.updateList(YugiohResponse.data)
-                   /* showList(YugiohResponse.data)*/
+                    Glide
+                        .with(ImageYugi)
+                        .load("https://getwallpapers.com/wallpaper/full/8/e/0/892699-yugioh-wallpaper-1920x1080-iphone.jpg")
+                        .centerCrop()
+                        .into(ImageYugi);
+
+                    /* showList(YugiohResponse.data)*/
                 }
             }
 
