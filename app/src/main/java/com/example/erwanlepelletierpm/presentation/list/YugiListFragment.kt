@@ -1,6 +1,8 @@
 package com.example.erwanlepelletierpm.presentation.list
 
 import YugiAdapter
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +31,8 @@ class YugiListFragment : Fragment() {
     private lateinit var ImageYugi: ImageView
     private val adapter = YugiAdapter(listOf(), ::onClikedCard)
 
+    private val sharedPref: SharedPreferences? = activity?.getSharedPreferences("app", Context.MODE_PRIVATE)
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,20 +54,23 @@ class YugiListFragment : Fragment() {
         }
         callApi()
         /*val list = getListFromCache()
-        if(list.isEmpty()) {
-            callApi()
+        if (list.isEmpty()) {
+
         } else {
             showList(list)
-        }
+        }*/
     }
 
-         */
+
+/*
+    private fun getListFromCache(): List<Card> {
+        sharedPref
     }
 
-   /* private fun getListFromCache(): List<Card> {
+    private  fun saveListIntoCache() {
 
-    }*/
-
+    }
+*/
 
     private fun callApi() {
         val id = arguments?.getInt("id")
@@ -78,7 +85,8 @@ class YugiListFragment : Fragment() {
             ) {
                 if (response.isSuccessful && response.body() != null) {
                     val YugiohResponse: YugiohResponse = response.body()!!
-                    adapter.updateList(YugiohResponse.data)
+                    showList(YugiohResponse.data)
+
                     Glide
                         .with(ImageYugi)
                         .load("https://getwallpapers.com/wallpaper/full/8/e/0/892699-yugioh-wallpaper-1920x1080-iphone.jpg")
@@ -92,9 +100,9 @@ class YugiListFragment : Fragment() {
         })
     }
 
-   /* private fun showList(YugiohResponse: List<Card>) {
-        adapter.updateList(YugiohResponse)
-    }*/
+    private fun showList(YugiohList: List<Card>) {
+        adapter.updateList(YugiohList)
+    }
 
 
     private fun onClikedCard(id: Int) {
