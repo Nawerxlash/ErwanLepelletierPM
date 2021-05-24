@@ -44,15 +44,25 @@ class YugiListFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = this@YugiListFragment.adapter
         }
-
         callApi()
-
+        /*val list = getListFromCache()
+        if(list.isEmpty()) {
+            callApi()
+        } else {
+            showList(list)
+        }
     }
 
+         */
+    }
 
+   /* private fun getListFromCache(): List<Card> {
+
+    }*/
 
 
     private fun callApi() {
+        val id = arguments?.getInt("id")
         Singletons.yugiApi.getYugiList().enqueue(object : Callback<YugiohResponse> {
             override fun onFailure(call: Call<YugiohResponse>, t: Throwable) {
                 //TODO("Not yet implemented")
@@ -65,14 +75,21 @@ class YugiListFragment : Fragment() {
                 if (response.isSuccessful && response.body() != null) {
                     val YugiohResponse: YugiohResponse = response.body()!!
                     adapter.updateList(YugiohResponse.data)
+                   /* showList(YugiohResponse.data)*/
                 }
             }
 
         })
     }
 
+   /* private fun showList(YugiohResponse: List<Card>) {
+        adapter.updateList(YugiohResponse)
+    }*/
 
-    private fun onClikedCard(card: Card) {
-        findNavController().navigate(R.id.navigateToCardDetailFragment, bundleOf())
+
+    private fun onClikedCard(id: Int) {
+        findNavController().navigate(R.id.navigateToCardDetailFragment, bundleOf(
+            "cardId" to id,
+        ))
     }
 }

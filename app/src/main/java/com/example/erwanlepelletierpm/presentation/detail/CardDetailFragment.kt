@@ -7,10 +7,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.erwanlepelletierpm.R
 import com.example.erwanlepelletierpm.presentation.Singletons
 import com.example.erwanlepelletierpm.presentation.api.YugiohDetailResponse
@@ -30,6 +32,7 @@ class CardDetailFragment : Fragment() {
     private lateinit var textViewDescription: TextView
     private lateinit var textViewType: TextView
     private lateinit var textViewArchetype: TextView
+    private lateinit var ImageView: ImageView
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -46,13 +49,15 @@ class CardDetailFragment : Fragment() {
         textViewDescription = view.findViewById(R.id.card_detail_description)
         textViewType = view.findViewById(R.id.card_detail_type)
         textViewArchetype = view.findViewById(R.id.card_detail_archetype)
+        ImageView = view.findViewById(R.id.card_img)
 
 
         callApi()
     }
 
     private fun callApi() {
-        Singletons.yugiApi.getYugiDetail("1").enqueue(object : retrofit2.Callback<YugiohDetailResponse> {
+        val id = arguments?.getInt("cardId") ?: -1
+        Singletons.yugiApi.getYugiDetail(id.toString()).enqueue(object : retrofit2.Callback<YugiohDetailResponse> {
             override fun onFailure(call: Call<YugiohDetailResponse>, t: Throwable) {
                 //TODO("Not yet implemented")
             }
@@ -62,10 +67,17 @@ class CardDetailFragment : Fragment() {
                     response: Response<YugiohDetailResponse>
             ) {
                 if (response.isSuccessful && response.body() != null) {
-                    textViewName.text = response.body()!!.data[1].name
-                    textViewDescription.text = response.body()!!.data[1].desc
-                    textViewType.text = response.body()!!.data[1].type
-                    textViewArchetype.text = response.body()!!.data[1].archetype
+                    textViewName.text = response.body()!!.data[id].name
+                    textViewDescription.text = response.body()!!.data[id].desc
+                    textViewType.text = response.body()!!.data[id].type
+                    textViewArchetype.text = response.body()!!.data[id].archetype
+
+                    /*Glide
+                            .with(ImageView)
+                            .load(response.body()!!.data[0].card_Images[0].image_Url)
+                            .centerCrop()
+                            .into(ImageView);*/
+
                 }
             }
         })

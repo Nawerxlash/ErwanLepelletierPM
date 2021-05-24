@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.erwanlepelletierpm.R
 import com.example.erwanlepelletierpm.presentation.list.Card
 
-class YugiAdapter(private var dataSet: List<Card>, var listener: ((Card) -> Unit)? = null) : RecyclerView.Adapter<YugiAdapter.ViewHolder>() {
+class YugiAdapter(private var dataSet: List<Card>, var listener: ((Int) -> Unit)? = null) : RecyclerView.Adapter<YugiAdapter.ViewHolder>() {
 
 
     /**
@@ -45,8 +45,9 @@ class YugiAdapter(private var dataSet: List<Card>, var listener: ((Card) -> Unit
         val card: Card = dataSet[position]
         viewHolder.textView.text = card.name
         viewHolder.itemView.setOnClickListener {
-            listener?.invoke(card)
+            listener?.invoke(position)
         }
+
     }
         // Return the size of your dataset (invoked by the layout manager)
         override fun getItemCount() = dataSet.size
